@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AJAX Employee Record</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script type="text/javascript">
+		function ajaxrequest(req,id) {
+			var employee_name = document.getElementById('employee_name').value;
+			var employee_designation = document.getElementById('employee_designation').value;
+			var employee_salary = document.getElementById('employee_salary').value;
+			if(req == undefined){
+				req = '';
+				id = '';
+			}else if(req == 'add_new_record'){
+				id = '';
+			}else if(req == 'add_new_record'){
+				id = id;
+			}
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+					var result = document.getElementById('result');
+					result.innerHTML = xmlhttp.responseText;
+				}
+			}
+
+			xmlhttp.open('GET','data.php?id='+ id +'&req='+ req +'&emp_name='+ employee_name +'&emp_designation='+ employee_designation+'&emp_salary='+employee_salary, true);
+			xmlhttp.send();
+		}
+
+		function editrequest(edit_id) {
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+					var form_data = document.getElementById('form-data');
+					form_data.innerHTML = xmlhttp.responseText;
+				}
+			}
+
+			xmlhttp.open('GET','edit.php?edit_id='+ edit_id, true);
+			xmlhttp.send();
+		}
+
+		
+	</script>
+</head>
+<body onload="ajaxrequest();">
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Employee Records</h1>
+		</div>
+		<div class="form-horizontal" id="form-data">
+			<div class="form-group">
+				<lable class="control-label col-md-2">Employee name</lable>
+				<div class="col-md-8">
+					<input type="text" id="employee_name" class="form-control" name="">
+				</div>
+			</div><!-- form-group -->
+			<div class="form-group">
+				<lable class="control-label col-md-2">Employee Designation</lable>
+				<div class="col-md-3">
+					<select class="form-control" id="employee_designation">
+						<option value="">Select your designation</option>
+						<option value="PHP Developer">PHP Developer</option>
+						<option value="WordPress Developer">WordPress Developer</option>
+						<option value="UI Developer">UI Developer</option>
+						<option value="JS Developer">JS Developer</option>
+					</select>
+				</div>
+				<lable class="control-label col-md-2">Employee Salary</lable>
+				<div class="col-md-3">
+					<input type="number" class="form-control" name="" id="employee_salary">
+				</div>
+			</div><!-- form-group -->
+			<div class="form-group">
+				<div class="col-md-10 col-md-offset-2">
+					<button class="btn btn-danger" onclick="ajaxrequest('add_new_record');">Add New Record</button>
+				</div>
+			</div><!-- form-group -->
+		</div>
+		<table class="table table-striped">
+			<thead>
+				<tr class="success">
+					<th>S.No</th>
+					<th>Employee Name</th>
+					<th>Employee Designation</th>
+					<th>Employee Salary</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody id="result">
+			</tbody>
+		</table>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
